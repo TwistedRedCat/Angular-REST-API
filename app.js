@@ -54,7 +54,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use('/garage', garageRoutes);
+app.use('/garage-sale', garageRoutes);
 // app.use('/auth', authRoutes);
 
 app.use((error, req, res, next) => {
