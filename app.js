@@ -5,12 +5,16 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const multer = require('multer');
+const helmet = require('helmet');
+const compression = require('compression');
 
 const garageRoutes = require('./routes/garage');
 // const feedRoutes = require('./routes/feed');
 // const authRoutes = require('./routes/auth');
 
 const app = express();
+
+const MONGODB_URI = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster0-jolks.mongodb.net/${process.env.MONGO_DEFAULT_DATABASE}`;
 
 // const fileStorage = multer.diskStorage({
 //   destination: (req, file, cb) => {
@@ -44,6 +48,9 @@ app.use(bodyParser.json()); // application/json
 // );
 // app.use('/images', express.static(path.join(__dirname, 'images')));
 
+app.use(helmet());
+app.use(compression());
+
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader(
@@ -54,7 +61,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use('/garage-sale', garageRoutes);
+app.use('/garage', garageRoutes);
 // app.use('/auth', authRoutes);
 
 app.use((error, req, res, next) => {
@@ -68,6 +75,6 @@ app.use((error, req, res, next) => {
 mongoose
   .connect('mongodb+srv://Husin:kucing123@cluster0-jolks.mongodb.net/shop')
   .then(result => {
-    app.listen(8080);
+    app.listen(process.env.PORT || 8080);
   })
   .catch(err => console.log(err));
