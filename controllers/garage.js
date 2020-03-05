@@ -31,7 +31,7 @@ exports.postProducts = async (req, res, next) => {
     imageUrl: imageUrl
   });
   try {
-    const result = await product.save();
+    await product.save();
     //   const user = await User.findById(req.userId);
     //   user.posts.push(post);
     //   await user.save();
